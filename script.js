@@ -7,7 +7,7 @@ let sortingGenerator;
 
 // Setup canvas using p5.js
 function setup() {
-    createCanvas(800, 600).parent('visualization');
+    createCanvas(600, 400).parent('visualization');
     resetList();
 }
 
@@ -28,10 +28,14 @@ function resetList() {
 // Draw function for p5.js (visualize the bars)
 function draw() {
     background(255);
+
     for (let i = 0; i < values.length; i++) {
-        fill(128 + (i % 3) * 32);
+        let barColor = color(map(values[i], Math.min(...values), Math.max(...values), 0, 255), 100, 150);
+        fill(barColor);
+        stroke(0);
         rect(i * w, height - values[i], w, values[i]);
     }
+
     if (sorting) {
         if (sortingGenerator && sortingGenerator.next().done) {
             sorting = false;
@@ -51,27 +55,17 @@ function startSorting() {
     }
 }
 
-// Set ascending order
-function setAscending() {
-    ascending = true;
+// Function to set the sorting order
+function setOrder() {
+    let order = document.getElementById("order").value;
+    ascending = order === "ascending";
 }
 
-// Set descending order
-function setDescending() {
-    ascending = false;
-}
-
-// Set Bubble Sort algorithm
-function setBubbleSort() {
+// Function to set the sorting algorithm
+function setAlgorithm() {
+    let algorithm = document.getElementById("algorithm").value;
     if (!sorting) {
-        currentAlgorithm = "bubbleSort";
-    }
-}
-
-// Set Insertion Sort algorithm
-function setInsertionSort() {
-    if (!sorting) {
-        currentAlgorithm = "insertionSort";
+        currentAlgorithm = algorithm;
     }
 }
 
